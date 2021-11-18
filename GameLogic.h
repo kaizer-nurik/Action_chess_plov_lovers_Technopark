@@ -1,7 +1,7 @@
 #pragma once
 
 #include <stdlib.h>
-#include <string.h>
+#include <string>
 
 enum figure_color{
     WHITE,
@@ -73,7 +73,7 @@ class Pawn : public Figure
 {
 public:
     int enPassant;
-    Pawn(figure_color color, int wasPawn);
+    Pawn(figure_color color, int enPassant);
     move_status makeMove(Figure* table, std::string move); 
 };
 
