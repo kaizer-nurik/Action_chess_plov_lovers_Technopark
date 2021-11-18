@@ -8,6 +8,3 @@ void RoomClient::onMessage(std::string msg) {
 
 }
 
-void RoomClient::writeMessageQueue(const boost::system::error_code& err) {
-
-}
