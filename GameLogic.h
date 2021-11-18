@@ -20,7 +20,7 @@ class Figure // имя класса
     std::string name;
     int isDead;
     Figure();
-    virtual move_status makeMove(Figure* table, std::string move);
+    virtual move_status makeMove(Figure** table, std::string move);
     void set_name(std::string name);
     void set_color(figure_color color);
 };
@@ -31,9 +31,9 @@ public:
     King(figure_color color);
     int isCheked;
     int moved;
-    int mateCheck(Figure* table);
-    int checkMateCheck(Figure* table);
-    move_status makeMove(Figure* table, std::string move); 
+    int mateCheck(Figure** table);
+    int checkMateCheck(Figure** table);
+    move_status makeMove(Figure** table, std::string move); 
 };
 
 class Queen : public Figure
@@ -41,7 +41,7 @@ class Queen : public Figure
 public:
     int wasPawn;
     Queen(figure_color color, int wasPawn);
-    move_status makeMove(Figure* table, std::string move); 
+    move_status makeMove(Figure** table, std::string move); 
 
 };
 
@@ -50,7 +50,7 @@ class Bishop : public Figure
 public:
     int wasPawn;
     Bishop(figure_color color, int wasPawn);
-    move_status makeMove(Figure* table, std::string move); 
+    move_status makeMove(Figure** table, std::string move); 
 };
 
 class Knight : public Figure
@@ -58,7 +58,7 @@ class Knight : public Figure
 public:
     int wasPawn;
     Knight(figure_color color, int wasPawn);
-    move_status makeMove(Figure* table, std::string move); 
+    move_status makeMove(Figure** table, std::string move); 
 };
 
 class Rock : public Figure
@@ -66,7 +66,7 @@ class Rock : public Figure
 public:
     int wasPawn;
     Rock(figure_color color, int wasPawn);
-    move_status makeMove(Figure* table, std::string move); 
+    move_status makeMove(Figure** table, std::string move); 
 };
 
 class Pawn : public Figure
@@ -74,7 +74,7 @@ class Pawn : public Figure
 public:
     int enPassant;
     Pawn(figure_color color, int enPassant);
-    move_status makeMove(Figure* table, std::string move); 
+    move_status makeMove(Figure** table, std::string move); 
 };
 
 enum game_result{
@@ -91,7 +91,7 @@ enum game_result{
 struct return_after_move
 {
     move_status moveStatus;
-    Figure* table;
+    Figure** table;
 };
 
 class GameSession{
@@ -104,7 +104,7 @@ class GameSession{
     time_t black_timer;
     Figure* whiteDeadFigures;
     Figure* blackDeadFigures;
-    Figure* table;
+    Figure** table;
     int ended;
     int beggined;
     figure_color turn;
@@ -114,3 +114,5 @@ class GameSession{
     void setUp(std::string FEN);
     ~GameSession();
 };
+
+Figure** FEN_parser(std::string FEN);
