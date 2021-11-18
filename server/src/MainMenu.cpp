@@ -23,11 +23,3 @@ boost::asio::ip::tcp::socket& MainMenu::getClientSocket(unsigned int id) {
 bool MainMenu::haveClient(unsigned int id) {
     
 }
-
-void MainMenu::moveToRoom(unsigned int clientId, unsigned int roomId) {
-
-}
-
-void MainMenu::removeFromRoom(unsigned int clientId, unsigned int roomId) {
-    
-}

@@ -7,7 +7,7 @@
 
 #include "ClientData.h"
 #include "ClientMover.h"
-#include "GameClient.h"
+#include "GameWriter.h"
 
 class Game: public IClientMover {
 public:
@@ -24,7 +24,8 @@ public:
     void onEnd();
 
 private:
-    std::map<unsigned int, GameClient> m_clients;
+    GameWriter m_writer;
+    std::map<unsigned int, ClientData*> m_clients;
 };
 
 #endif // GAME_H

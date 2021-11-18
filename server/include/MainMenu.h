@@ -6,7 +6,7 @@
 
 #include "ClientData.h"
 #include "ClientMover.h"
-#include "MainMenuClient.h"
+#include "MainMenuWriter.h"
 #include "RoomController.h"
 
 class MainMenu: public IClientMover {
@@ -20,11 +20,9 @@ public:
     boost::asio::ip::tcp::socket& getClientSocket(unsigned int id) override;
     bool haveClient(unsigned int id) override;
 
-    void moveToRoom(unsigned int clientId, unsigned int roomId);
-    void removeFromRoom(unsigned int clientId, unsigned int roomId);
-
 private:
-    std::map<unsigned int, MainMenuClient> m_clients;
+    MainMenuWriter m_writer;
+    std::map<unsigned int, ClientData*> m_clients;
     RoomController roomController;
 };
 

@@ -7,7 +7,7 @@
 
 #include "ClientData.h"
 #include "Game.h"
-#include "RoomClient.h"
+#include "RoomWriter.h"
 
 class Room: public IClientMover {
 public:
@@ -26,7 +26,8 @@ public:
     bool gameStarted();
 
 private:
-    std::map<unsigned int, RoomClient> m_clients;
+    RoomWriter m_writer;
+    std::map<unsigned int, ClientData*> m_clients;
     unsigned int currentClientNumber = 0;
     unsigned int maxClientNumber;
     Game game;
