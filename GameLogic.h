@@ -102,8 +102,8 @@ class GameSession{
     int blackPlayerId;
     time_t white_timer;
     time_t black_timer;
-    Figure* whiteDeadFigures;
-    Figure* blackDeadFigures;
+    Figure** whiteDeadFigures;
+    Figure** blackDeadFigures;
     Figure** table;
     int ended;
     int beggined;
