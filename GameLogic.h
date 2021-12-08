@@ -2,7 +2,7 @@
 
 #include <stdlib.h>
 #include <string>
-
+#include <vector>
 enum figure_color{
     WHITE,
     BLACK
@@ -20,6 +20,7 @@ class Figure // имя класса
     std::string name;
     int isDead;
     Figure();
+    ~Figure();
     virtual move_status makeMove(Figure** table, std::string move);
     void set_name(std::string name);
     void set_color(figure_color color);
@@ -78,6 +79,7 @@ public:
 };
 
 enum game_result{
+    InGame,
     WhiteWinCheckmate,
     BlackWinCheckmate,
     WhiteWinTime,
@@ -91,7 +93,7 @@ enum game_result{
 struct return_after_move
 {
     move_status moveStatus;
-    Figure** table;
+    std::string table_fen;
 };
 
 class GameSession{
@@ -102,14 +104,14 @@ class GameSession{
     int blackPlayerId;
     time_t white_timer;
     time_t black_timer;
-    Figure** whiteDeadFigures;
-    Figure** blackDeadFigures;
+    std::vector<Figure*> whiteDeadFigures;
+    std::vector<Figure*> blackDeadFigures;
     Figure** table;
     int ended;
     int beggined;
     figure_color turn;
     game_result gameResult;
-    GameSession(int whitePlayerId, int blackPlayerId, std::string FEN = "rnbqkbnr/pppppppp/8/8/8/8/PPPPPPPP/RNBQKBNR w KQkq - 0 1");
+    GameSession(int id,int whitePlayerId, int blackPlayerId, std::string FEN = "rnbqkbnr/pppppppp/8/8/8/8/PPPPPPPP/RNBQKBNR w KQkq - 0 1");
     return_after_move makeMove(std::string move);
     void setUp(std::string FEN);
     ~GameSession();
