@@ -103,74 +103,135 @@ GameSession::~GameSession(){
 
 };
 
-Figure** FEN_parser(std::string FEN){
+int coord_to_index(const char letter,const char number){
+    int coord = (letter - 'A') + number*8; 
+    return coord;
+}
+void set_enpassant(const Figure** ttable,const char letter,const char number){
+    int index = coords_to_index(letter, number);
+    if data[c]
+}
+
+Figure** FEN_parser(std::string FEN){ //TODO: добавить ошибки
     
     
     Figure** ttable = new Figure*[64]; //temp_table
     bool err_flag = false;
     const char *data = FEN.c_str();
-    int cursor = 64;//FEN нотация идёт от черных к белым
-    while (data[cursor] != ' '){ //считываем нотацию доски
+    int cursor = 56;//FEN нотация идёт от черных к белым, слева направо
+    int data_cursor = 0;
+    King* Black_king = NULL;
+    King* White_king = NULL;
+
+    while (data[data_cursor] != ' '){ //считываем нотацию доски
         switch (data[cursor])
         {
         case 'k':
-            ttable[cursor] = new King(BLACK);
-            cursor--;
+            if (Black_king == NULL){
+                ttable[cursor] = new King(BLACK);
+                Black_king = ttable[cursor];
+                cursor++;
+            }
             break;
         case 'K':
-            ttable[cursor] = new King(WHITE);
-            cursor--;
+            if (White_king == NULL){
+                ttable[cursor] = new King(WHITE);
+                White_king = ttable[cursor];
+                cursor++;
+            }
+            
             break;
 
         case 'q':
             ttable[cursor] = new Queen(BLACK);
-            cursor--;
+            cursor++;
             break;
         case 'Q':
             ttable[cursor] = new Queen(WHITE);
-            cursor--;
+            cursor++;
             break;
         
         case 'r':
             ttable[cursor] = new Rock(BLACK);
-            cursor--;
+            cursor++;
             break;
         case 'R':
             ttable[cursor] = new Rock(WHITE);
-            cursor--;
+            cursor++;
             break;
 
         case 'b':
             ttable[cursor] = new Bishop(BLACK);
-            cursor--;
+            cursor++;
             break;
         case 'B':
             ttable[cursor] = new Bishop(WHITE);
-            cursor--;
+            cursor++;
             break;
 
         case 'n':
             ttable[cursor] = new Knight(BLACK);
-            cursor--;
+            cursor++;
             break;
         case 'N':
             ttable[cursor] = new Knight(WHITE);
-            cursor--;
+            cursor++;
             break;
 
         case 'p':
             ttable[cursor] = new Pawn(BLACK);
-            cursor--;
+            cursor++;
             break;
         case 'P':
             ttable[cursor] = new Pawn(WHITE);
-            cursor--;
+            cursor++;
             break;
         case '1'...'8':
-            cursor -= data[cursor] - '0'; // преобразование из char  в int
+            cursor += data[cursor] - '0'; // преобразование из char  в int
+            break;
+        case '/':
+            cursor -= 16;
             break;
         default:
             break;
         }
+        data_cursor++;
     }
+
+    data_cursor++;
+
+    figure_color turn = (data[data_cursor] == 'w') ? WHITE:BLACK;
+
+    data_cursor++;
+
+    while (data[data_cursor] != ' '){ //считываем нотацию Рокировок
+        switch (data[cursor])
+        {
+        case 'k':
+            Black_king->cast_k = 1;
+            break;
+        case 'K':
+            White_king->cast_k = 1;
+            break;
+
+        case 'q':
+            Black_king->cast_q = 1;
+            break;
+        case 'Q':
+            White_king->cast_q = 1;
+            break;
+        }
+        data_cursor++;
+    }
+
+    data_cursor++;
+
+    if (data[data_cursor] != '-'){
+        data_cursor++;
+        while (data[data_cursor] != ' '){ //считываем нотацию Рокировок
+        set_enpassant(ttable,data[data_cursor],data[data_cursor+1]);
+        data_cursor+=2;
+    }
+    }
+    data_cursor++;
 };

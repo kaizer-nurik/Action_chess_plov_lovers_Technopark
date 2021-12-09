@@ -32,6 +32,8 @@ public:
     King(figure_color color);
     int isCheked;
     int moved;
+    int cast_k; // рокировка со стороны короля
+    int cast_q; // рокировка со стороны ферзя
     int mateCheck(Figure** table);
     int checkMateCheck(Figure** table);
     move_status makeMove(Figure** table, std::string move); 
