@@ -8,14 +8,17 @@
 class RoomController {
 public:
     RoomController() = default;
-    Room& getRoom(unsigned int roomId);
-    std::map<unsigned int, Room> getAllRooms();
-    void createRoom(unsigned int roomId);
-    void deleteRoom(unsigned int roomId);
+
+    Room* getRoom(std::string roomId);
+    bool haveRoom(std::string id);
+    std::map<std::string, Room*> getAllRooms();
+    void createRoom(std::string roomId, unsigned int maxClientNumber);
+    void deleteRoom(std::string roomId);
+
     ~RoomController() = default;
 
 private:
-    std::map<unsigned int, Room> m_rooms;
+    std::map<std::string, Room*> m_rooms;
 };
 
 #endif // ROOMCONTROLLER_H

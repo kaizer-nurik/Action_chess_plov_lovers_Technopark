@@ -1,9 +1,14 @@
 #include "RoomWriter.h"
 
-void RoomWriter::onMessage(boost::asio::ip::tcp::socket& socket, const std::string& msg) {
+#include <boost/asio/write.hpp>
+#include <iostream>
 
+void RoomWriter::onMessage(boost::asio::ip::tcp::socket& socket, const ClientData& clientData, const std::string& msg) {
+    std::string writeBuffer = clientData.id + " prints: " + msg;
+    boost::asio::write(socket, boost::asio::buffer(msg.data(), msg.size()));
 }
 
-void RoomWriter::onUpdateClientsInfo(boost::asio::ip::tcp::socket& socket, const std::map<unsigned int, ClientData*>& clients) {
-    
+void RoomWriter::onEnter(boost::asio::ip::tcp::socket& socket, const ClientData& clientData) {
+    std::string msg = clientData.id + " entered";
+    boost::asio::write(socket, boost::asio::buffer(msg.data(), msg.size()));
 }

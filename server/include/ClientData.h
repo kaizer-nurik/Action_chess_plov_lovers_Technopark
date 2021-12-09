@@ -1,7 +1,7 @@
 #ifndef CLIENTDATA_H
 #define CLIENTDATA_H
 
-#include <boost/asio.hpp>
+#include <boost/asio/ip/tcp.hpp>
 #include <string>
 
 enum class Location {
@@ -11,12 +11,12 @@ enum class Location {
 };
 
 struct ClientData {
-    ClientData(boost::asio::ip::tcp::socket& socket): m_socket(socket) {}; 
+    ClientData(boost::asio::ip::tcp::socket& socket): socket(socket) {}; 
 
-    boost::asio::ip::tcp::socket& m_socket;
-    unsigned int m_id;
-    std::pair<Location, unsigned int> m_position;
-    std::string m_nickname;
+    boost::asio::ip::tcp::socket& socket;
+    std::string id;
+    std::pair<Location, unsigned int> position;
+    std::string nickname;
 };
 
 #endif // CLIENTDATA_H

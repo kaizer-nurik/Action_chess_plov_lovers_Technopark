@@ -1,17 +1,26 @@
 #include "RoomController.h"
 
-Room& RoomController::getRoom(unsigned int roomId) {
-
+Room* RoomController::getRoom(std::string roomId) {
+    if (haveRoom(roomId)) {
+        return m_rooms[roomId];
+    } else {
+        return nullptr;
+    }
 }
 
-std::map<unsigned int, Room> RoomController::getAllRooms() {
-
+bool RoomController::haveRoom(std::string id) {
+    return m_rooms.find(id) != m_rooms.end();    
 }
 
-void RoomController::createRoom(unsigned int roomId) {
-
+std::map<std::string, Room*> RoomController::getAllRooms() {
+    return m_rooms;
 }
 
-void RoomController::deleteRoom(unsigned int roomId) {
+void RoomController::createRoom(std::string roomId, unsigned int maxClientNumber) {
+    m_rooms.insert({roomId, new Room(maxClientNumber)});
+}
 
+void RoomController::deleteRoom(std::string roomId) {
+    delete getRoom(roomId);
+    m_rooms.erase(roomId);
 }

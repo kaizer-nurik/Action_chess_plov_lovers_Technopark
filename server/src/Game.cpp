@@ -1,38 +1,17 @@
 #include "Game.h"
 
-Game::Game() {
+void Game::addClient(const ClientData& clientData) {}
 
-}
+void Game::removeClient(std::string id) {}
 
-void Game::addClient(const ClientData& clientData) {
+boost::asio::ip::tcp::socket& Game::getClientSocket(std::string id) {}
 
-}
+bool Game::haveClient(std::string id) {}
 
-void Game::removeClient(unsigned int id) {
+void Game::broadcast(const ClientData& clientData, std::string msg) {}
 
-}
+void Game::makeAction(const ClientData& clientData, std::string msg) {}
 
-boost::asio::ip::tcp::socket& Game::getClientSocket(unsigned int id) {
+void Game::start() {}
 
-}
-
-bool Game::haveClient(unsigned int id) {
-    
-}
-
-void Game::broadcast(const ClientData& clientData, std::string msg) {
-
-}
-
-void Game::makeAction(const ClientData& clientData, std::string msg) {
-
-}
-
-
-void Game::start() {
-
-}
-
-void Game::onEnd() {
-
-}
+void Game::onEnd() {}
