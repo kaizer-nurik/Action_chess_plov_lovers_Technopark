@@ -13,9 +13,10 @@ public:
     MainMenu() = default;
     
     void addClient(const ClientData& clientData) override;
-    void removeClient(std::string id) override;
-    boost::asio::ip::tcp::socket& getClientSocket(std::string id) override;
-    bool haveClient(std::string id) override;
+    void removeClient(const std::string& id) override;
+    boost::asio::ip::tcp::socket& getClientSocket(const std::string& id) override;
+    bool haveClient(const std::string& id) override;
+    const ClientData* getClient(const std::string& id) override;
 
     ~MainMenu() = default;
 

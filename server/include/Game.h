@@ -7,28 +7,33 @@
 
 #include "ClientData.h"
 #include "ClientMover.h"
+#include "GameLogic.h"
 #include "GameWriter.h"
 
 class Game: public IClientMover {
 public:
-    Game() = default;
+    Game(const std::string& id);
 
     void addClient(const ClientData& clientData) override;
-    void removeClient(std::string id) override;
-    boost::asio::ip::tcp::socket& getClientSocket(std::string id) override;
-    bool haveClient(std::string id) override;
+    void removeClient(const std::string& id) override;
+    boost::asio::ip::tcp::socket& getClientSocket(const std::string& id) override;
+    bool haveClient(const std::string& id) override;
+    const ClientData* getClient(const std::string& id) override;
 
-    void broadcast(const ClientData& clientData, std::string msg);
-    void makeAction(const ClientData& clientData, std::string msg);
+    void broadcast(const std::string& id, const std::string& action);
+    void makeAction(const std::string& id, const std::string& action);
     void start();
     void onEnd();
 
     ~Game() = default;
 
 private:
+    const std::string m_id;
+
+    GameSession *m_session;
     GameWriter m_writer;
     
-    std::map<std::string, ClientData*> m_clients;
+    std::map<const std::string, const ClientData*> m_clients;
 };
 
 #endif // GAME_H

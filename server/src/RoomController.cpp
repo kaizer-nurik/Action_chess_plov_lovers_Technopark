@@ -17,7 +17,7 @@ std::map<std::string, Room*> RoomController::getAllRooms() {
 }
 
 void RoomController::createRoom(std::string roomId, unsigned int maxClientNumber) {
-    m_rooms.insert({roomId, new Room(maxClientNumber)});
+    m_rooms.insert({roomId, new Room(roomId, maxClientNumber)});
 }
 
 void RoomController::deleteRoom(std::string roomId) {

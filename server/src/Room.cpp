@@ -1,6 +1,6 @@
 #include "Room.h"
 
-Room::Room(unsigned int maxClientNumber): m_maxClientNumber(maxClientNumber) {}
+Room::Room(const std::string& id, unsigned int maxClientNumber): m_id(id), m_maxClientNumber(maxClientNumber), m_game(m_id) {}
 
 unsigned int Room::getCurrentClientNumber() {
     return m_currentClientNumber;
@@ -19,29 +19,41 @@ void Room::addClient(const ClientData& clientData) {
     }
 }
 
-void Room::removeClient(std::string id) {
+void Room::removeClient(const std::string& id) {
     m_clients.erase(id);
 }
 
-boost::asio::ip::tcp::socket& Room::getClientSocket(std::string id) {
+boost::asio::ip::tcp::socket& Room::getClientSocket(const std::string& id) {
     return m_clients[id]->socket;
 }
 
-bool Room::haveClient(std::string id) {
+bool Room::haveClient(const std::string& id) {
     return m_clients.find(id) != m_clients.end();    
 }
 
-void Room::broadcast(const ClientData& clientData, std::string msg) {
+const ClientData* Room::getClient(const std::string& id) {
+    if (haveClient(id)) {
+        return m_clients[id];
+    } else {
+        return nullptr;
+    }
+}
+
+void Room::broadcast(const std::string& id, const std::string& msg) {
     for (auto &client: m_clients) {
-        if (client.first != clientData.id) {
-            m_writer.onMessage(client.second->socket, clientData, msg);
+        if (client.first != id) {
+            m_writer.onMessage(client.second->socket, *getClient(id), msg);
         }
     }
 }
 
-void Room::startGame() {}
+void Room::startGame() {
+    m_game.start();    
+}
 
-bool Room::gameStarted() {}
+bool Room::gameStarted() {
+    return m_gameStarted;
+}
 
 Room::~Room() {
     for (const auto &client: m_clients) {

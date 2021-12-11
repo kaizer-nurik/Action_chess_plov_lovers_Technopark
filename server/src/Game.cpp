@@ -1,17 +1,43 @@
 #include "Game.h"
 
-void Game::addClient(const ClientData& clientData) {}
+Game::Game(const std::string& id): m_id(id) {}
 
-void Game::removeClient(std::string id) {}
+void Game::addClient(const ClientData& clientData) {
+    m_clients.insert({clientData.id, &clientData});
+}
 
-boost::asio::ip::tcp::socket& Game::getClientSocket(std::string id) {}
+void Game::removeClient(const std::string& id) {
+    m_clients.erase(id);
+}
 
-bool Game::haveClient(std::string id) {}
+boost::asio::ip::tcp::socket& Game::getClientSocket(const std::string& id) {
+    return m_clients[id]->socket;
+}
 
-void Game::broadcast(const ClientData& clientData, std::string msg) {}
+bool Game::haveClient(const std::string& id) {
+    return m_clients.find(id) != m_clients.end();    
+}
 
-void Game::makeAction(const ClientData& clientData, std::string msg) {}
+const ClientData* Game::getClient(const std::string& id) {
+    if (haveClient(id)) {
+        return m_clients[id];
+    } else {
+        return nullptr;
+    }
+}
 
-void Game::start() {}
+void Game::broadcast(const std::string& id, const std::string& action) {}
 
-void Game::onEnd() {}
+void Game::makeAction(const std::string& id, const std::string& action) {
+    m_session->makeMove(action, id);
+}
+
+void Game::start() {
+    m_session = new GameSession(m_id, (*m_clients.begin()).first, (*(m_clients.begin()++)).first);
+}
+
+void Game::onEnd() {
+    // ...
+
+    delete m_session;
+}
