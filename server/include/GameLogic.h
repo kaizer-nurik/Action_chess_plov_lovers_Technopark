@@ -3,6 +3,9 @@
 #include <stdlib.h>
 #include <string>
 #include <vector>
+
+#define START_POSITION "rnbqkbnr/pppppppp/8/8/8/8/PPPPPPPP/RNBQKBNR w KQkq -"
+
 enum figure_color{
     WHITE,
     BLACK
@@ -10,6 +13,13 @@ enum figure_color{
 
 enum move_status{
     MOVE_OK,
+    MOVE_EAT,
+    MOVE_CAST,
+    MOVE_CHECK_WHITE,
+    MOVE_CHECKMATE_WHITE,
+    MOVE_CHECK_BLACK,
+    MOVE_CHECKMATE_BLACK,
+    MOVE_DRAW,
     MOVE_ERROR
 };
 
@@ -95,6 +105,9 @@ struct return_after_move
 {
     move_status moveStatus;
     std::string table_fen;
+    int move_from;
+    int move_to;
+
 };
 
 
@@ -127,7 +140,7 @@ class GameSession{
     int beggined = 1;
     figure_color turn;
     game_result gameResult = InGame;
-    GameSession(const std::string& id,const std::string& whitePlayerId,const  std::string& blackPlayerId,const  std::string& FEN);
+    GameSession(const std::string& id,const std::string& whitePlayerId,const  std::string& blackPlayerId,const  std::string& FEN = START_POSITION);
     return_after_move makeMove(std::string move, const std::string& player_id);
     std::string get_FEN();
     void FEN_parser(std::string FEN);

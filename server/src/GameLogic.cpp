@@ -4,7 +4,7 @@
 #include <stdlib.h>
 #include <vector>
 
-#define START_POSITION "rnbqkbnr/pppppppp/8/8/8/8/PPPPPPPP/RNBQKBNR w KQkq -"
+
 Figure::Figure(){
 
 };
@@ -88,7 +88,7 @@ move_status Pawn::makeMove(Figure** table, std::string move){
 
 
 GameSession::GameSession(const std::string& id,const std::string& whitePlayerId,const  std::string& blackPlayerId,
-const  std::string& FEN= START_POSITION) : id(id), whitePlayerId(whitePlayerId), blackPlayerId(blackPlayerId){
+const  std::string& FEN) : id(id), whitePlayerId(whitePlayerId), blackPlayerId(blackPlayerId){
     GameSession::FEN_parser(FEN);
 };
 

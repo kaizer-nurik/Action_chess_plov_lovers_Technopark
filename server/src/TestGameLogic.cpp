@@ -2,6 +2,8 @@
 
 #include "string"
 #include "GameLogic.h"
+
+/*
 class FooTest :
     public testing::TestWithParam<const char*> {
 };
@@ -39,4 +41,15 @@ INSTANTIATE_TEST_CASE_P(All, ChessTest,::testing::Values(case11,case11));
 int main(int argc, char **argv) {
   ::testing::InitGoogleTest(&argc, argv);
   return RUN_ALL_TESTS();
+}
+
+*/
+
+int main(){
+    std::string id = "1";
+    std::string id1 = "2";
+    std::string id2 = "3";
+    GameSession game = GameSession(id, id1,id2);
+
+    return 0;
 }
