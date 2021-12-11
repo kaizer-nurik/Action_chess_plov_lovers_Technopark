@@ -18,9 +18,10 @@ class Figure // имя класса
     public: 
     figure_color color;
     std::string name;
+    std::string FEN_name;
     int isDead;
-    Figure();
-    ~Figure();
+    Figure() = default;
+    ~Figure() = default;
     virtual move_status makeMove(Figure** table, std::string move);
 };
 
@@ -104,7 +105,7 @@ class ChessTable{
     void set_table(Figure** input_table);
     void kill_figure(std::string coords);
     void move_figure(std::string from, std::string to);
-    void set_enpassant(const char letter,const char number);
+    void set_enpassant(const char& letter,const char& number);
     ~ChessTable();
     private:
     Figure** table;
@@ -114,26 +115,26 @@ class ChessTable{
 
 class GameSession{
     public:
-    std::string id;
+    const std::string id;
     std::string moveHistory = "";
-    std::string whitePlayerId;
-    std::string blackPlayerId;
+    const std::string whitePlayerId;
+    const std::string blackPlayerId;
     time_t white_timer = 0;
     time_t black_timer = 0;
-
+    int turns = 0;
     ChessTable table;
     int ended = 0;
     int beggined = 1;
     figure_color turn;
     game_result gameResult = InGame;
-    GameSession(int id,int whitePlayerId, int blackPlayerId, std::string FEN);
-    return_after_move makeMove(std::string move, int player_id);
-    void setUp(std::string FEN);
-    std::string get_FEN(std::string FEN);
+    GameSession(const std::string& id,const std::string& whitePlayerId,const  std::string& blackPlayerId,const  std::string& FEN);
+    return_after_move makeMove(std::string move, const std::string& player_id);
+    std::string get_FEN();
     void FEN_parser(std::string FEN);
     ~GameSession();
 };
 
 namespace utils{
-    int coord_to_index(const char letter,const char number);
+    int coord_to_index(const char& letter,const char& number);
+    std::string index_to_coord(const int& index);
 };
