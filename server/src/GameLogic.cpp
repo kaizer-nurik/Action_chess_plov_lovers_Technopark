@@ -5,13 +5,6 @@
 #include <vector>
 
 
-Figure::Figure(){
-
-};
-
-Figure::~Figure(){
-
-};
 move_status Figure::makeMove(Figure** table, std::string move){
 
 };
