@@ -16,61 +16,64 @@ move_status Figure::makeMove(Figure** table, std::string move){
 
 };
 
-void Figure::set_name(std::string name){
 
-};
-
-void Figure::set_color(figure_color color){
-
-};
 
 
 King::King(figure_color color){
     King::isDead = 0;
     King::name = "King";
     King::color = color;
-    King::moved = 0;
-    King::isCheked = 0;    
 };
 
 move_status King::makeMove(Figure** table, std::string move){
 
 };
 
-Queen::Queen(figure_color color, int wasPawn){
-
+Queen::Queen(figure_color color){
+    Queen::isDead = 0;
+    Queen::name = "Queen";
+    Queen::color = color;
 };
 
 move_status Queen::makeMove(Figure** table, std::string move){
 
 };
 
-Bishop::Bishop(figure_color color, int wasPawn){
-
+Bishop::Bishop(figure_color color){
+    Bishop::isDead = 0;
+    Bishop::name = "Bishop";
+    Bishop::color = color;
 };
 
 move_status Bishop::makeMove(Figure** table, std::string move){
 
 };
 
-Knight::Knight(figure_color color, int wasPawn){
-
+Knight::Knight(figure_color color){
+    Knight::isDead = 0;
+    Knight::name = "Knight";
+    Knight::color = color;
 };
 
 move_status Knight::makeMove(Figure** table, std::string move){
 
 };
 
-Rock::Rock(figure_color color, int wasPawn){
-
+Rock::Rock(figure_color color){
+    Rock::isDead = 0;
+    Rock::name = "Rock";
+    Rock::color = color;
 };
+
 
 move_status Rock::makeMove(Figure** table, std::string move){
 
 };
 
-Pawn::Pawn(figure_color color, int enPassant){
-
+Pawn::Pawn(figure_color color){
+    Pawn::isDead = 0;
+    Pawn::name = "Pawn";
+    Pawn::color = color;
 };
 
 move_status Pawn::makeMove(Figure** table, std::string move){
@@ -78,24 +81,14 @@ move_status Pawn::makeMove(Figure** table, std::string move){
 };
 
 
-GameSession::GameSession(int id,int whitePlayerId, int blackPlayerId, std::string FEN ){
+GameSession::GameSession(int id,int whitePlayerId, int blackPlayerId, std::string FEN = START_POSITION){
     GameSession::id = id;
-    GameSession::moveHistory = "";
     GameSession::whitePlayerId = whitePlayerId;
     GameSession::blackPlayerId = blackPlayerId;
-    GameSession::white_timer = 0;
-    GameSession::black_timer = 0;
-    GameSession::whiteDeadFigures.clear();
-    GameSession::blackDeadFigures.clear();
-    GameSession::table = new Figure*[64];
-    GameSession::table = FEN_parser(START_POSITION);
-    GameSession::ended = 0;
-    GameSession::beggined = 1;
-    GameSession::turn = WHITE;
-    GameSession::gameResult = InGame;
+    GameSession::FEN_parser(FEN);
 };
 
-return_after_move GameSession::makeMove(std::string move){
+return_after_move GameSession::makeMove(std::string move, int player_id){
 
 };
 
@@ -103,19 +96,33 @@ GameSession::~GameSession(){
 
 };
 
-int coord_to_index(const char letter,const char number){
+int utils::coord_to_index(const char letter,const char number){
     int coord = (letter - 'A') + number*8; 
     return coord;
 }
-void set_enpassant(const Figure** ttable,const char letter,const char number){
-    int index = coords_to_index(letter, number);
-    if data[c]
+void ChessTable::set_enpassant(const char letter,const char number){
+    int index = utils::coord_to_index(letter, number);
+    if((index <49) && (index >40)){
+        index -= 8;
+        Pawn* cur = dynamic_cast<Pawn*>(table[index]);
+        if (cur != NULL){
+        cur ->enPassant = true;
+        }
+    }
+
+    if((index <33) && (index >24)){
+        index += 8;
+        Pawn* cur = dynamic_cast<Pawn*>(table[index]);
+        if (cur != NULL){
+        cur ->enPassant = true;
+        }
+    }
 }
 
-Figure** FEN_parser(std::string FEN){ //TODO: добавить ошибки
+void GameSession::FEN_parser(const std::string FEN){ //TODO: добавить ошибки
     
     
-    Figure** ttable = new Figure*[64]; //temp_table
+    Figure** ttable = GameSession::table.get_table(); //temp_table
     bool err_flag = false;
     const char *data = FEN.c_str();
     int cursor = 56;//FEN нотация идёт от черных к белым, слева направо
@@ -128,15 +135,15 @@ Figure** FEN_parser(std::string FEN){ //TODO: добавить ошибки
         {
         case 'k':
             if (Black_king == NULL){
-                ttable[cursor] = new King(BLACK);
-                Black_king = ttable[cursor];
+                Black_king = new King(BLACK);
+                ttable[cursor] = Black_king;
                 cursor++;
             }
             break;
         case 'K':
             if (White_king == NULL){
-                ttable[cursor] = new King(WHITE);
-                White_king = ttable[cursor];
+                White_king = new King(WHITE);
+                ttable[cursor] = White_king;
                 cursor++;
             }
             
@@ -228,8 +235,8 @@ Figure** FEN_parser(std::string FEN){ //TODO: добавить ошибки
 
     if (data[data_cursor] != '-'){
         data_cursor++;
-        while (data[data_cursor] != ' '){ //считываем нотацию Рокировок
-        set_enpassant(ttable,data[data_cursor],data[data_cursor+1]);
+        while (data[data_cursor] != ' '){ //считываем нотацию взятий на проходе
+        GameSession::table.set_enpassant(data[data_cursor],data[data_cursor+1]);
         data_cursor+=2;
     }
     }

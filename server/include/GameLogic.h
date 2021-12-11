@@ -1,4 +1,4 @@
-#pragma once
+#pragma once //TODO: добавить конструкторы копирования
 
 #include <stdlib.h>
 #include <string>
@@ -22,18 +22,16 @@ class Figure // имя класса
     Figure();
     ~Figure();
     virtual move_status makeMove(Figure** table, std::string move);
-    void set_name(std::string name);
-    void set_color(figure_color color);
 };
 
 class King : public Figure
 {
 public:
     King(figure_color color);
-    int isCheked;
-    int moved;
-    int cast_k; // рокировка со стороны короля
-    int cast_q; // рокировка со стороны ферзя
+    int isCheked = 0;
+    int moved = 0;
+    int cast_k = 0; // рокировка со стороны короля
+    int cast_q = 0; // рокировка со стороны ферзя
     int mateCheck(Figure** table);
     int checkMateCheck(Figure** table);
     move_status makeMove(Figure** table, std::string move); 
@@ -42,8 +40,8 @@ public:
 class Queen : public Figure
 {
 public:
-    int wasPawn;
-    Queen(figure_color color, int wasPawn);
+    int wasPawn = 0;
+    Queen(figure_color color);
     move_status makeMove(Figure** table, std::string move); 
 
 };
@@ -51,32 +49,32 @@ public:
 class Bishop : public Figure
 {
 public:
-    int wasPawn;
-    Bishop(figure_color color, int wasPawn);
+    int wasPawn = 0;
+    Bishop(figure_color color);
     move_status makeMove(Figure** table, std::string move); 
 };
 
 class Knight : public Figure
 {
 public:
-    int wasPawn;
-    Knight(figure_color color, int wasPawn);
+    int wasPawn = 0;
+    Knight(figure_color color);
     move_status makeMove(Figure** table, std::string move); 
 };
 
 class Rock : public Figure
 {
 public:
-    int wasPawn;
-    Rock(figure_color color, int wasPawn);
+    int wasPawn = 0;
+    Rock(figure_color color);
     move_status makeMove(Figure** table, std::string move); 
 };
 
 class Pawn : public Figure
 {
 public:
-    int enPassant;
-    Pawn(figure_color color, int enPassant);
+    bool enPassant = false;
+    Pawn(figure_color color);
     move_status makeMove(Figure** table, std::string move); 
 };
 
@@ -98,25 +96,44 @@ struct return_after_move
     std::string table_fen;
 };
 
+
+class ChessTable{
+    public:
+    ChessTable();
+    Figure** get_table();
+    void set_table(Figure** input_table);
+    void kill_figure(std::string coords);
+    void move_figure(std::string from, std::string to);
+    void set_enpassant(const char letter,const char number);
+    ~ChessTable();
+    private:
+    Figure** table;
+    std::string whiteDeadFigures;
+    std::string blackDeadFigures;
+};
+
 class GameSession{
     public:
-    int id;
-    std::string moveHistory;
-    int whitePlayerId;
-    int blackPlayerId;
-    time_t white_timer;
-    time_t black_timer;
-    std::vector<Figure*> whiteDeadFigures;
-    std::vector<Figure*> blackDeadFigures;
-    Figure** table;
-    int ended;
-    int beggined;
+    std::string id;
+    std::string moveHistory = "";
+    std::string whitePlayerId;
+    std::string blackPlayerId;
+    time_t white_timer = 0;
+    time_t black_timer = 0;
+
+    ChessTable table;
+    int ended = 0;
+    int beggined = 1;
     figure_color turn;
-    game_result gameResult;
-    GameSession(int id,int whitePlayerId, int blackPlayerId, std::string FEN = "rnbqkbnr/pppppppp/8/8/8/8/PPPPPPPP/RNBQKBNR w KQkq - 0 1");
-    return_after_move makeMove(std::string move);
+    game_result gameResult = InGame;
+    GameSession(int id,int whitePlayerId, int blackPlayerId, std::string FEN);
+    return_after_move makeMove(std::string move, int player_id);
     void setUp(std::string FEN);
+    std::string get_FEN(std::string FEN);
+    void FEN_parser(std::string FEN);
     ~GameSession();
 };
 
-Figure** FEN_parser(std::string FEN);
+namespace utils{
+    int coord_to_index(const char letter,const char number);
+};
