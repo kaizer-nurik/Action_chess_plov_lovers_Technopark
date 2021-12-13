@@ -5,10 +5,10 @@
 #include <vector>
 
 #define START_POSITION "rnbqkbnr/pppppppp/8/8/8/8/PPPPPPPP/RNBQKBNR w KQkq -"
-
+#define BOARD_SIZE  64
 enum figure_color{
-    WHITE,
-    BLACK
+    WHITE = 1,
+    BLACK = -1
 };
 
 enum move_status{
@@ -20,9 +20,17 @@ enum move_status{
     MOVE_CHECK_BLACK,
     MOVE_CHECKMATE_BLACK,
     MOVE_DRAW,
-    MOVE_ERROR
+    MOVE_ERROR,
+    MOVE_ENPASSANT
 };
 
+
+struct coords{
+    std::string str;
+    int index;
+    int x;
+    int y;
+};
 class Figure // имя класса
 {
     public: 
@@ -30,6 +38,7 @@ class Figure // имя класса
     std::string name;
     std::string FEN_name;
     int isDead;
+    Figure(const Figure &figure) = default;
     Figure() = default;
     ~Figure() = default;
     virtual move_status makeMove(Figure** table, std::string move);
@@ -114,16 +123,29 @@ struct return_after_move
 class ChessTable{
     public:
     ChessTable();
+    ChessTable(const ChessTable& mainTable);
     Figure** get_table();
     void set_table(Figure** input_table);
-    void kill_figure(std::string coords);
-    void move_figure(std::string from, std::string to);
-    void set_enpassant(const char& letter,const char& number);
+    void kill_figure(int index);
+    move_status move_figure(int from, int to);
+    void make_move(int from, int to);
+    move_status is_legal(int from, int to);
+    bool Check_mate(int King_ind);
+    void set_enpassant(char letter,char number);
+    bool check_en_passant(int from,int to);
+    bool Rock(figure_color color, coords from, coords to);
+    bool Bishop(figure_color color, coords from, coords to);
+    bool Queen(figure_color color, coords from, coords to);
+    bool get_hit_table(figure_color color, coords to);
+    bool check_cast(Figure* fig_actor,figure_color enemy, coords from, coords to );
+    Figure* get_figure(int index);
     ~ChessTable();
+    int Black_king_ind = -1;
+    int White_king_ind = -1;
     private:
     Figure** table;
-    std::string whiteDeadFigures;
-    std::string blackDeadFigures;
+    std::string whiteDeadFigures = "";
+    std::string blackDeadFigures = "";
 };
 
 class GameSession{
@@ -135,7 +157,7 @@ class GameSession{
     time_t white_timer = 0;
     time_t black_timer = 0;
     int turns = 0;
-    ChessTable table;
+    ChessTable table = ChessTable();
     int ended = 0;
     int beggined = 1;
     figure_color turn;
@@ -145,9 +167,10 @@ class GameSession{
     std::string get_FEN();
     void FEN_parser(std::string FEN);
     ~GameSession();
+    private:
+    void create_error_response(return_after_move &result);
 };
-
-namespace utils{
-    int coord_to_index(const char& letter,const char& number);
-    std::string index_to_coord(const int& index);
-};
+coords data_to_coords(char letter, char number);
+int str_to_index(char letter, char number);
+coords data_to_coords(int index);
+coords data_to_coords(std::string input);

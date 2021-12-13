@@ -1,5 +1,5 @@
 #include <gtest/gtest.h>
-
+#include <iostream>
 #include "string"
 #include "GameLogic.h"
 
@@ -44,12 +44,53 @@ int main(int argc, char **argv) {
 }
 
 */
-
+void print_fen(std::string fen){
+    for(int i= 0;i<fen.length();i++){
+        switch (fen.at(i))
+        {
+        case '1'...'8':
+            for(int j=1;j<=fen.at(i)-'0';j++){
+                std::cout<<'.';
+            }
+            break;
+        case '/':
+            std::cout<<std::endl;
+            break;
+        default:
+            std::cout<<fen.at(i);
+            break;
+        }
+    }
+}
 int main(){
     std::string id = "1";
     std::string id1 = "2";
     std::string id2 = "3";
     GameSession game = GameSession(id, id1,id2);
+    //std::cout<<game.table.get_table()[50]->FEN_name << std::endl;
+    std::string outp = game.get_FEN();
+    print_fen(outp);
+    //std::cout<<outp<<'\n'<<std::endl;
 
+    std::string move;
+    std::cin>>move;
+    return_after_move res = game.makeMove(move,id1);
+    
+    //std::cout<<'\n'<<res.move_from<<' '<<res.move_to<<std::endl;
+    switch(res.moveStatus){
+        case MOVE_OK:
+            std::cout<<'\n'<<"ok"<<std::endl;
+            break;
+        case MOVE_ERROR:
+            std::cout<<'\n'<<"error"<<std::endl;
+            break;
+        case MOVE_EAT:
+            std::cout<<'\n'<<"eat"<<std::endl;
+            break;
+        case MOVE_CAST:
+            std::cout<<'\n'<<"CAST"<<std::endl;
+            break;
+    }
+    print_fen(res.table_fen);
     return 0;
 }
