@@ -8,7 +8,6 @@
 #define ENTER_KEY 13
 #define ESCAPE_KEY 27
 
-#define DEBUG
 
 class Textbox {
 public:
