@@ -1,5 +1,5 @@
-#ifndef GAMEREQUEST_H
-#define GAMEREQUEST_H
+#ifndef SERVER_GAMEREQUEST_H
+#define SERVER_GAMEREQUEST_H
 
 #include "BaseRequest.h"
 
@@ -29,4 +29,4 @@ private:
     }
 };
 
-#endif // GAMEREQUEST_H
+#endif // SERVER_GAMEREQUEST_H

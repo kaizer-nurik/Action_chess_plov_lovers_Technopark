@@ -1,8 +1,14 @@
 #include <SFML/Graphics.hpp>
 #include <time.h>
 
+#include <boost/asio.hpp>
+#include <boost/bind.hpp>
+
 #include "menu_window.hpp"
 #include "chess_game.hpp"
+
+#include "Client.hpp"
+
 using namespace sf;
 
 #define DEBUG
@@ -12,8 +18,10 @@ using namespace sf;
 #endif
 
 
-int main()
-{
+int main() {
+    boost::asio::io_context io_context;
+    Client c(io_context, "127.0.0.1", "8080");
+    boost::shared_ptr<std::thread> thread(new std::thread(boost::bind(&boost::asio::io_context::run, &io_context)));
 
     RenderWindow window(VideoMode(1080, 720), "PlovLovers Chess game");
 
@@ -25,8 +33,7 @@ int main()
     
     }
 
-
-
+    thread->join();
 
     return 0;
 }

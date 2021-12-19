@@ -27,7 +27,7 @@ void menu_window(sf::RenderWindow& window){
     menu.setSmooth(true);
     Sprite background(menu);
     sf::Font font;
-    font.loadFromFile("gost.ttf");
+    font.loadFromFile("fonts/gost.ttf");
     Textbox IdBox(font, 20, 30, L"Введите ID", Vector2f(402, 352), Vector2f(262, 39));
     Textbox RoomBox(font, 20, 30, L"Введите ID", Vector2f(402, 452), Vector2f(262, 39));
     Button StartButton(font,20,L"Подключиться",Vector2f(430,600),Vector2f(200,50),&window, Color::Black,Color(100,100,100),Color(130,130,130),Color(150,150,150),button_callback);

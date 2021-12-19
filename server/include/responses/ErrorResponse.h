@@ -1,12 +1,12 @@
-#ifndef ERRORRESPONSE_H
-#define ERRORRESPONSE_H
+#ifndef SERVER_ERRORRESPONSE_H
+#define SERVER_ERRORRESPONSE_H
 
 #include <string>
 
 #include "BaseResponse.h"
 
 struct ErrorResponse: public BaseResponse {
-    std::string toJSON() override { return "error"; }
+    std::string toJSON() override { return "ERROR"; }
 };
 
-#endif // ERRORRESPONSE_H
+#endif // SERVER_ERRORRESPONSE_H

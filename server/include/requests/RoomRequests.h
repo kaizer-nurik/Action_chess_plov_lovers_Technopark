@@ -1,5 +1,5 @@
-#ifndef ROOMREQUESTS_H
-#define ROOMREQUESTS_H
+#ifndef SERVER_ROOMREQUESTS_H
+#define SERVER_ROOMREQUESTS_H
 
 #include <string>
 
@@ -30,4 +30,4 @@ struct StartGameRequest: public BaseRequest {
     void parse(const std::string& requestData) override { return; }
 };
 
-#endif // ROOMREQUESTS_H
+#endif // SERVER_ROOMREQUESTS_H

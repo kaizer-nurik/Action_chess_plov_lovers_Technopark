@@ -1,5 +1,5 @@
-#ifndef GAMERESPONSE_H
-#define GAMERESPONSE_H
+#ifndef SERVER_GAMERESPONSE_H
+#define SERVER_GAMERESPONSE_H
 
 #include "BaseResponse.h"
 
@@ -19,4 +19,4 @@ struct GameResponse: public BaseResponse {
     }
 };
 
-#endif // GAMERESPONSE_H
+#endif // SERVER_GAMERESPONSE_H

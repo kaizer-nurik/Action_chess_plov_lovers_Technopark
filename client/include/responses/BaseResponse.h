@@ -1,9 +1,10 @@
-#ifndef SERVER_BASEREQUEST_H
-#define SERVER_BASEREQUEST_H
+#ifndef CLIENT_BASERESPONSE_H
+#define CLIENT_BASERESPONSE_H
 
- #include <string>
+#include <boost/json.hpp>
+#include <string>
 
-struct BaseRequest {
+struct BaseResponse {
     virtual void parse(const std::string &requestData) = 0;
     
     bool valid() { return m_transformSuccess; }
@@ -12,4 +13,4 @@ protected:
     bool m_transformSuccess = true;
 };
 
-#endif // SERVER_BASEREQUEST_H
+#endif // CLIENT_BASERESPONSE_H

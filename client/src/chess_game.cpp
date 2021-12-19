@@ -47,7 +47,7 @@ void chess_game(sf::RenderWindow &window)
 
     Sprite background(background_image);
     sf::Font font;
-    font.loadFromFile("gost.ttf");
+    font.loadFromFile("fonts/gost.ttf");
     Sprite *focused = NULL;
     Text turn_msg;
     Text end_msg;

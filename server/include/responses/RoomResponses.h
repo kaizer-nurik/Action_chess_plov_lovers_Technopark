@@ -1,5 +1,5 @@
-#ifndef ROOMRESPONSES_H
-#define ROOMRESPONSES_H
+#ifndef SERVER_ROOMRESPONSES_H
+#define SERVER_ROOMRESPONSES_H
 
 #include "BaseResponse.h"
 
@@ -47,4 +47,4 @@ struct StartGameResponse: public BaseResponse {
     }
 };
 
-#endif // ROOMRESPONSES_H
+#endif // SERVER_ROOMRESPONSES_H
