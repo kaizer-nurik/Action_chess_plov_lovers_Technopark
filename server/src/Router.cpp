@@ -12,9 +12,9 @@ std::string Router::processRoute(const std::string &requestData, ClientData& cli
     auto stepsIterator = m_methodSteps.find(method);
     if (stepsIterator != m_methodSteps.end()) {
         Steps steps = stepsIterator->second;
-        steps.request->parse(requestData);
+        steps.request->parse(getRequestJsonData(requestData));
         steps.handler->process(steps.request, steps.response, clientData, mainMenu);
-        return steps.response->toJSON();
+        return method + " " + steps.response->toJSON();
     }
 
     ErrorResponse response;
@@ -23,6 +23,11 @@ std::string Router::processRoute(const std::string &requestData, ClientData& cli
 
 std::string Router::getRequestMethod(const std::string &requestData) {
     return requestData.substr(0, requestData.find(' '));
+}
+
+std::string Router::getRequestJsonData(const std::string &requestData) {
+    size_t pos = requestData.find(' ');
+    return requestData.substr(pos + 1, requestData.size() - pos - 1);
 }
 
 Router::~Router() {

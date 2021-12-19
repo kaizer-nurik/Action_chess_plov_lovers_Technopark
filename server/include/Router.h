@@ -29,6 +29,7 @@ public:
 
 private:
     std::string getRequestMethod(const std::string &requestData);
+    std::string getRequestJsonData(const std::string &requestData);
 
     std::map<std::string, Steps> m_methodSteps;
 };

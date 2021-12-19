@@ -17,13 +17,14 @@ public:
     unsigned int getMaxClientNumber();
 
     void addClient(const ClientData& clientData) override;
-    void removeClient(const std::string& id) override;
+    const ClientData* removeClient(const std::string& id) override;
     boost::asio::ip::tcp::socket& getClientSocket(const std::string& id) override;
     bool haveClient(const std::string& id) override;
     const ClientData* getClient(const std::string& id) override;
 
-    void broadcast(const std::string& id, const std::string&  msg);
+    void broadcast(const std::string& id, const std::string& msg);
     void startGame();
+    Game& getGame();
     bool gameStarted();
 
     ~Room();

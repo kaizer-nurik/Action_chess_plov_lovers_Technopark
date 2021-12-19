@@ -8,7 +8,7 @@ class GameWriter {
 public:
     GameWriter() = default;
 
-    void onAction(boost::asio::ip::tcp::socket& socket, const std::string& action);
+    void onAction(boost::asio::ip::tcp::socket& socket, const std::string& response);
 
     ~GameWriter() = default;
 };

@@ -3,40 +3,48 @@
 
 #include "BaseResponse.h"
 
+struct CreateRoomResponse: public BaseResponse {
+    int status;
+
+    std::string toJSON() override {
+        boost::json::object object({{ "status", status }});
+
+        return boost::json::serialize(object);
+    }
+};
+
 struct EnterRoomResponse: public BaseResponse {
-public:
-    EnterRoomResponse() = default;
+    int status;
 
-    std::string toJSON() override {}
+    std::string toJSON() override {
+        boost::json::object object({{ "status", status }});
 
-    ~EnterRoomResponse() = default;
-
-public:
-    std::string method;
+        return boost::json::serialize(object);
+    }
 };
 
 struct LeaveRoomResponse: public BaseResponse {
-public:
-    LeaveRoomResponse() = default;
+    int status;
 
-    std::string toJSON() override {}
+    std::string toJSON() override {
+        boost::json::object object({{ "status", status }});
 
-    ~LeaveRoomResponse() = default;
-
-public:
-    std::string method;
+        return boost::json::serialize(object);
+    }
 };
 
 struct GetRoomsResponse: public BaseResponse {
-public:
-    GetRoomsResponse() = default;
-
     std::string toJSON() override {}
+};
 
-    ~GetRoomsResponse() = default;
+struct StartGameResponse: public BaseResponse {
+    int status;
 
-public:
-    std::string method;
+    std::string toJSON() override {
+        boost::json::object object({{ "status", status }});
+
+        return boost::json::serialize(object);
+    }
 };
 
 #endif // ROOMRESPONSES_H

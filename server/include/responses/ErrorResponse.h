@@ -6,12 +6,7 @@
 #include "BaseResponse.h"
 
 struct ErrorResponse: public BaseResponse {
-public:
-    ErrorResponse() = default;
-
     std::string toJSON() override { return "error"; }
-
-    virtual ~ErrorResponse() = default;    
 };
 
 #endif // ERRORRESPONSE_H

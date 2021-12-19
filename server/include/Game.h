@@ -15,13 +15,13 @@ public:
     Game(const std::string& id);
 
     void addClient(const ClientData& clientData) override;
-    void removeClient(const std::string& id) override;
+    const ClientData* removeClient(const std::string& id) override;
     boost::asio::ip::tcp::socket& getClientSocket(const std::string& id) override;
     bool haveClient(const std::string& id) override;
     const ClientData* getClient(const std::string& id) override;
 
-    void broadcast(const std::string& id, const std::string& action);
-    void makeAction(const std::string& id, const std::string& action);
+    void broadcast(const std::string& id, const std::string& response);
+    return_after_move makeAction(const std::string& id, const std::string& action);
     void start();
     void onEnd();
 

@@ -1,5 +1,7 @@
 #include "Room.h"
 
+#include <iostream>
+
 Room::Room(const std::string& id, unsigned int maxClientNumber): m_id(id), m_maxClientNumber(maxClientNumber), m_game(m_id) {}
 
 unsigned int Room::getCurrentClientNumber() {
@@ -19,8 +21,10 @@ void Room::addClient(const ClientData& clientData) {
     }
 }
 
-void Room::removeClient(const std::string& id) {
+const ClientData* Room::removeClient(const std::string& id) {
+    const ClientData* clientData = m_clients[id];
     m_clients.erase(id);
+    return clientData;
 }
 
 boost::asio::ip::tcp::socket& Room::getClientSocket(const std::string& id) {
@@ -48,7 +52,15 @@ void Room::broadcast(const std::string& id, const std::string& msg) {
 }
 
 void Room::startGame() {
-    m_game.start();    
+    for (auto it = m_clients.cbegin(), nextIt = it; it != m_clients.cend(); it = nextIt) {
+        ++nextIt;
+        m_game.addClient(*removeClient(it->second->id));
+    }
+    m_game.start();
+}
+
+Game& Room::getGame() {
+    return m_game;
 }
 
 bool Room::gameStarted() {

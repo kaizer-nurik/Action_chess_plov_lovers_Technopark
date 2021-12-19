@@ -15,7 +15,7 @@ struct ClientData {
 
     boost::asio::ip::tcp::socket& socket;
     std::string id;
-    std::pair<Location, unsigned int> position;
+    std::pair<Location, std::string> position;
     std::string nickname;
 };
 

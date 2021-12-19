@@ -6,8 +6,10 @@ void Game::addClient(const ClientData& clientData) {
     m_clients.insert({clientData.id, &clientData});
 }
 
-void Game::removeClient(const std::string& id) {
+const ClientData* Game::removeClient(const std::string& id) {
+    const ClientData* clientData = m_clients[id];
     m_clients.erase(id);
+    return clientData;
 }
 
 boost::asio::ip::tcp::socket& Game::getClientSocket(const std::string& id) {
@@ -26,14 +28,20 @@ const ClientData* Game::getClient(const std::string& id) {
     }
 }
 
-void Game::broadcast(const std::string& id, const std::string& action) {}
+void Game::broadcast(const std::string& id, const std::string& response) {
+    for (auto &client: m_clients) {
+        if (client.first != id) {
+            m_writer.onAction(client.second->socket, response);
+        }
+    }
+}
 
-void Game::makeAction(const std::string& id, const std::string& action) {
-    m_session->makeMove(action, id);
+return_after_move Game::makeAction(const std::string& id, const std::string& action) {
+    return m_session->makeMove(action, id);
 }
 
 void Game::start() {
-    m_session = new GameSession(m_id, (*m_clients.begin()).first, (*(m_clients.begin()++)).first);
+    m_session = new GameSession(m_id, (*m_clients.begin()).first, (*(++m_clients.begin())).first);
 }
 
 void Game::onEnd() {

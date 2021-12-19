@@ -1,17 +1,14 @@
 #ifndef BASEREQUEST_H
 #define BASEREQUEST_H
 
-#include <string>
+ #include <string>
 
-class BaseRequest {
-public:
-    BaseRequest() = default;
-
+struct BaseRequest {
     virtual void parse(const std::string &requestData) = 0;
     
-    virtual ~BaseRequest() = default;
+    bool valid() { return m_transformSuccess; }
 
-private:
+protected:
     bool m_transformSuccess = true;
 };
 

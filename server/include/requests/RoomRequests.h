@@ -5,34 +5,29 @@
 
 #include "BaseRequest.h"
 
-class EnterRoomRequest: public BaseRequest {
-public:
-    EnterRoomRequest() = default;
-
-    void parse(const std::string& requestData) override {}
-
-    ~EnterRoomRequest() = default;
-
-private:
-    unsigned int roomId;
+struct CreateRoomRequest: public BaseRequest {
+    void parse(const std::string& requestData) override { return; }
 };
 
-class LeaveRoomRequest: public BaseRequest {
-public:
-    LeaveRoomRequest() = default;
+struct EnterRoomRequest: public BaseRequest {
+    std::string roomId;
 
-    void parse(const std::string& requestData) override {}
-    
-    ~LeaveRoomRequest() = default;
+    void parse(const std::string& requestData) override {
+        roomId = requestData;
+        m_transformSuccess = true;
+    }
 };
 
-class GetRoomsRequest: public BaseRequest {
-public:
-    GetRoomsRequest() = default;
+struct LeaveRoomRequest: public BaseRequest {
+    void parse(const std::string& requestData) override { return; }
+};
 
-    void parse(const std::string& requestData) override {}
+struct GetRoomsRequest: public BaseRequest {
+    void parse(const std::string& requestData) override { return; }
+};
 
-    ~GetRoomsRequest() = default;
+struct StartGameRequest: public BaseRequest {
+    void parse(const std::string& requestData) override { return; }
 };
 
 #endif // ROOMREQUESTS_H

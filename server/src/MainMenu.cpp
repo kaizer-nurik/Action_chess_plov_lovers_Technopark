@@ -4,8 +4,10 @@ void MainMenu::addClient(const ClientData& clientData) {
     m_clients.insert({clientData.id, &clientData});
 }
 
-void MainMenu::removeClient(const std::string& id) {
+const ClientData* MainMenu::removeClient(const std::string& id) {
+    const ClientData* clientData = m_clients[id];
     m_clients.erase(id);
+    return clientData;
 }
 
 boost::asio::ip::tcp::socket& MainMenu::getClientSocket(const std::string& id) {

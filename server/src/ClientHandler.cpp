@@ -17,6 +17,8 @@ boost::asio::ip::tcp::socket& ClientHandler::getSocket() {
 void ClientHandler::start() {
     m_clientData.id = m_socket.remote_endpoint().address().to_string() + ":" + std::to_string(m_socket.remote_endpoint().port());
     // m_clientData.nickname = m_clientData.id;
+    m_clientData.position = { Location::MainMenu, "" };
+    m_mainMenu.addClient(m_clientData);
 
     m_socket.async_read_some(boost::asio::buffer(m_readBuffer),
                              boost::bind(&ClientHandler::handleRead, shared_from_this(),
@@ -26,6 +28,7 @@ void ClientHandler::start() {
 
 void ClientHandler::handleRead(const boost::system::error_code& err, std::size_t bytes_transferred) {
     if (!err) {
+        m_readBuffer[bytes_transferred] = '\0';
         std::cout << "Read (" << m_clientData.id << "): " << m_readBuffer.data() << std::endl;
 
         std::string writeBuffer = m_router.processRoute(std::string(m_readBuffer.data()), m_clientData, m_mainMenu);
