@@ -21,7 +21,7 @@ using namespace sf;
 int main() {
     boost::asio::io_context io_context;
     Client c(io_context, "127.0.0.1", "8080");
-    boost::shared_ptr<std::thread> thread(new std::thread(boost::bind(&boost::asio::io_context::run, &io_context)));
+    std::thread thread(boost::bind(&boost::asio::io_context::run, &io_context));
 
     RenderWindow window(VideoMode(1080, 720), "PlovLovers Chess game");
 
@@ -33,7 +33,7 @@ int main() {
     
     }
 
-    thread->join();
+    thread.join();
 
     return 0;
 }

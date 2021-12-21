@@ -4,6 +4,8 @@
 #include <boost/array.hpp>
 #include <boost/asio.hpp>
 
+#include "responses/GameResponse.h"
+
 #define MAX_IP_PACK_SIZE 8192
 
 class Client {
@@ -19,6 +21,11 @@ private:
     void handleRead(const boost::system::error_code& err, std::size_t bytes_transferred);
 
 private:
+    std::string getResponseMethod(const std::string &responseData);
+    std::string getResponseJsonData(const std::string &responseData);
+
+    GameResponse m_gameResponse;
+
     boost::asio::ip::tcp::resolver m_resolver;
     boost::asio::ip::tcp::socket m_socket;
 

@@ -22,11 +22,18 @@ std::string Router::processRoute(const std::string &requestData, ClientData& cli
 }
 
 std::string Router::getRequestMethod(const std::string &requestData) {
-    return requestData.substr(0, requestData.find(' '));
+    std::size_t pos = requestData.find(' ');
+    if (pos == std::string::npos) {
+        return "";
+    }
+    return requestData.substr(0, pos);
 }
 
 std::string Router::getRequestJsonData(const std::string &requestData) {
-    size_t pos = requestData.find(' ');
+    std::size_t pos = requestData.find(' ');\
+    if (pos == std::string::npos) {
+        return "";
+    }
     return requestData.substr(pos + 1, requestData.size() - pos - 1);
 }
 
