@@ -13,6 +13,8 @@ public:
     void onMessage(boost::asio::ip::tcp::socket& socket, const ClientData& clientData, const std::string& msg);
     void onEnter(boost::asio::ip::tcp::socket& socket, const ClientData& clientData);
 
+    void onGameStart(boost::asio::ip::tcp::socket& socket);
+
     ~RoomWriter() = default;
 };
 

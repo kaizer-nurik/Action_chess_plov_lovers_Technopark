@@ -36,14 +36,22 @@ public:
         std::string roomId = roomRequest->roomId;
 
         const ClientData* mainMenuClient = mainMenu.removeClient(clientData.id);
-        mainMenu.roomController.getRoom(roomId)->addClient(*mainMenuClient);
+        Room* room = mainMenu.roomController.getRoom(roomId);
+        room->addClient(*mainMenuClient);
         clientData.position = { Location::Room, roomId };
+
+        if (room->getCurrentClientNumber() == room->getMaxClientNumber()) {
+            room->broadcast(mainMenuClient->id, "GameStart");
+            room->startGame();
+        }
 
         roomResponse->status = 0;
     }
 
     ~EnterRoomHandler() = default;
 };
+
+/*
 
 class LeaveRoomHandler: public BaseHandler {
 public:
@@ -64,6 +72,10 @@ public:
     ~LeaveRoomHandler() = default;
 };
 
+*/
+
+/*
+
 class GetRoomsHandler: public BaseHandler {
 public:
     GetRoomsHandler() = default;
@@ -77,6 +89,10 @@ public:
 
     ~GetRoomsHandler() = default;
 };
+
+*/
+
+/*
 
 class StartGameHandler: public BaseHandler {
 public:
@@ -95,5 +111,7 @@ public:
 
     ~StartGameHandler() = default;
 };
+
+*/
 
 #endif // ROOMHANDLERS_H

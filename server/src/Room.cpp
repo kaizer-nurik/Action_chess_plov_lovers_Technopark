@@ -14,16 +14,20 @@ unsigned int Room::getMaxClientNumber() {
 
 void Room::addClient(const ClientData& clientData) {
     m_clients.insert({clientData.id, &clientData});
+    m_currentClientNumber++;
+    /*
     for (auto &client: m_clients) {
         if (client.first != clientData.id) {
             m_writer.onEnter(client.second->socket, clientData);
         }
     }
+    */
 }
 
 const ClientData* Room::removeClient(const std::string& id) {
     const ClientData* clientData = m_clients[id];
     m_clients.erase(id);
+    m_currentClientNumber--;
     return clientData;
 }
 
@@ -43,10 +47,12 @@ const ClientData* Room::getClient(const std::string& id) {
     }
 }
 
-void Room::broadcast(const std::string& id, const std::string& msg) {
-    for (auto &client: m_clients) {
-        if (client.first != id) {
-            m_writer.onMessage(client.second->socket, *getClient(id), msg);
+void Room::broadcast(const std::string& id, const std::string& method) {
+    if (method == "GameStart") {
+        for (auto &client: m_clients) {
+            if (client.first != id) {
+                m_writer.onGameStart(client.second->socket);
+            }
         }
     }
 }

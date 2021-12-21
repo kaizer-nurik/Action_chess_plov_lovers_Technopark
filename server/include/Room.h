@@ -22,7 +22,7 @@ public:
     bool haveClient(const std::string& id) override;
     const ClientData* getClient(const std::string& id) override;
 
-    void broadcast(const std::string& id, const std::string& msg);
+    void broadcast(const std::string& id, const std::string& method);
     void startGame();
     Game& getGame();
     bool gameStarted();

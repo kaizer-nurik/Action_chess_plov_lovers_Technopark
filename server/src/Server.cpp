@@ -21,7 +21,7 @@ Server::Server(const std::string address, const std::string port, std::size_t th
     m_router.addMethod("EnterRoom",  Router::Steps{ new EnterRoomRequest(),  new EnterRoomHandler(),  new EnterRoomResponse()  });
     //m_router.addMethod("LeaveRoom",  Router::Steps{ new LeaveRoomRequest(),  new LeaveRoomHandler(),  new LeaveRoomResponse()  });
     //m_router.addMethod("GetRooms",   Router::Steps{ new GetRoomsRequest(),  new GetRoomsHandler(),  new GetRoomsResponse()   });
-    m_router.addMethod("StartGame",  Router::Steps{ new StartGameRequest(),  new StartGameHandler(),  new StartGameResponse()  });
+    //m_router.addMethod("StartGame",  Router::Steps{ new StartGameRequest(),  new StartGameHandler(),  new StartGameResponse()  });
     m_router.addMethod("GameAction", Router::Steps{ new GameRequest(),       new GameHandler(),       new GameResponse()       });
 
     boost::asio::ip::tcp::resolver resolver(m_ioContext);
